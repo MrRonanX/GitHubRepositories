@@ -15,6 +15,8 @@ final class AppState: ObservableObject {
     @Published var alert: AppAlert = .empty
     @Published var userData = UserData()
     
+    @Published var hasNetwork = true
+    
     @Published var token: String? {
         didSet {
             UserDefaults.standard.set(token, forKey: "authToken")
@@ -37,6 +39,7 @@ final class AppState: ObservableObject {
 extension AppState {
     class UserData {
         @Published var repositorySearchResults = RepositoriesSearchResponse(incomplete_results: false, items: [])
+        @Published var historyItems = [Repository]()
     }
 }
 

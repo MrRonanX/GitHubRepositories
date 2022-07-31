@@ -18,7 +18,8 @@ struct TabBarView: View {
                     Label("Search", systemImage: "magnifyingglass")
                 }
             
-            HistoryView()
+            
+            HistoryView(viewModel: .init(viewModel.container))
                 .tabItem {
                     Label("History", systemImage: "books.vertical")
                 }
@@ -32,12 +33,4 @@ struct TabBarView_Previews: PreviewProvider {
     }
 }
 
-extension TabBarView {
-    final class ViewModel: ObservableObject {
-        let container: DIContainer
-        
-        init(container: DIContainer) {
-            self.container = container
-        }
-    }
-}
+

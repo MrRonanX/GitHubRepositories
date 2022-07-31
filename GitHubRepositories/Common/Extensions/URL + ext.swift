@@ -23,3 +23,9 @@ extension URL {
         return String(githubCode[..<stateRange.lowerBound])
     }
 }
+
+extension URL: Identifiable {
+    
+    public var id: String { absoluteString }
+    
+}

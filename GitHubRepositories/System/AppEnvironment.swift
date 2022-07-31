@@ -35,7 +35,8 @@ extension AppEnvironment {
     private static func configuredClients(session: URLSession) -> DIContainer.Clients {
         let loginClient = RemoteLoginClient(session: session)
         let searchClient = RemoteSearchClient(session: session)
-        return .init(loginClient: loginClient, searchClient: searchClient)
+        let persistenceClient = AppPersistenceClient()
+        return .init(loginClient: loginClient, searchClient: searchClient, persistenceClient: persistenceClient)
     }
     
     private static func configuredServices(appState: AppState,
@@ -44,9 +45,9 @@ extension AppEnvironment {
                                             loginClient: clients.loginClient)
         
         let searchService = RemoteSearchService(appState: appState, searchClient: clients.searchClient)
+        let persistenceService = AppPersistenceService(appState: appState, persistenceClient: clients.persistenceClient)
         
-        
-        return .init(authService: authService, searchService: searchService)
+        return .init(authService: authService, searchService: searchService, persistenceClient: persistenceService)
     }
 }
 
@@ -68,15 +69,17 @@ extension DIContainer {
     struct Clients {
         let loginClient: LoginClient
         let searchClient: SearchClient
+        let persistenceClient: PersistenceClient
     }
     
     struct Services {
         let authService: AuthService
         let searchService: SearchService
+        let persistenceClient: PersistenceService
         
         
         static var stub: Self {
-            .init(authService: StubAuthService(), searchService: StubSearchService())
+            .init(authService: StubAuthService(), searchService: StubSearchService(), persistenceClient: StudPersistenceService())
         }
     }
 }

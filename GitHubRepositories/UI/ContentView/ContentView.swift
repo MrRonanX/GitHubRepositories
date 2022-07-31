@@ -6,49 +6,6 @@
 //
 
 import SwiftUI
-import Combine
-
-final class ViewModel: ObservableObject {
-    
-    @Published var isLoggedIn = false
-    @Published var hasAlert = false
-    @Published var isLoading = false
-    
-    private(set) var alert: AppAlert = .empty
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    let container: DIContainer
-    
-    init(container: DIContainer) {
-        self.container = container
-        
-        if let token = container.appState.token, !token.isEmpty {
-            isLoggedIn = true
-        }
-        
-        container.appState.$token
-            .receive(on: RunLoop.main)
-            .map { !($0?.isEmpty ?? true) }
-            .assign(to: \.isLoggedIn, on: self)
-            .store(in: &cancellables)
-        
-        container.appState.$alert
-            .dropFirst()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] alert in
-                self?.alert = alert
-                self?.hasAlert = true
-            }
-            .store(in: &cancellables)
-        
-        container.appState.$isLoading
-            .dropFirst()
-            .receive(on: RunLoop.main)
-            .assign(to: \.isLoading, on: self)
-            .store(in: &cancellables)
-    }
-}
 
 struct ContentView: View {
     
@@ -74,7 +31,7 @@ struct ContentView: View {
             }
             
             if viewModel.isLoading {
-                
+                LoadingView()
             }
             
         }

@@ -16,7 +16,7 @@ struct RemoteSearchService: AppService, SearchService {
     let appState: AppState
     let searchClient: SearchClient
     
-    func searchRepositoryParallel(with query: String, page: Int, showLoader: Bool = false) {
+    func searchRepositoryParallel(with query: String, page: Int, showLoader: Bool) {
         multipleRequests(showLoader: showLoader) {
             [
                 await searchClient.searchRepositories(with: query, page: page),
@@ -33,3 +33,4 @@ struct RemoteSearchService: AppService, SearchService {
 struct StubSearchService: SearchService {
     func searchRepositoryParallel(with: String, page: Int, showLoader: Bool) {}
 }
+
