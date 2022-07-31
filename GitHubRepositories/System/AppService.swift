@@ -21,14 +21,6 @@ extension AppService {
             if showLoader { appState.isLoading = true }
             let result = await clientResult()
             if showLoader { appState.isLoading = false }
-
-//                if case let .failure(error) = result,
-//                   let apiError = error as? APIError,
-//                   case let .unauthorized(message) = apiError,
-//                   message == BackendErrors.unauthenticated {
-//                    appState.logout()
-//                    return
-//                }
             
             resultHandler(result)
         }
